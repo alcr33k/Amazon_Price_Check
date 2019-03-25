@@ -1,0 +1,21 @@
+{
+  "name": "amazon_price_check",
+  "version": "1.0.0",
+  "description": "Vue app for checking Amazon Prices",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js"
+  },
+  "author": "Alexander Björkenhall",
+  "license": "MIT",
+  "dependencies": {
+    "amazon-asin-scraper": "^1.0.6",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
