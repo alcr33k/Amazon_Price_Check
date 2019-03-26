@@ -1,6 +1,7 @@
 <template>
-    <form v-on:submit.prevent="addProduct">
+    <form class="addForm" v-on:submit.prevent="addProduct">
         <input type="text" v-model="asin" name="asin" placeholder="ASIN">
+        <input type="number" v-model="maxPrice" name="maxPrice" min="100" max="10000" step="100" placeholder="Max Price">
         <input type="submit" value="Add Product" class="btn">
     </form>
 </template>
@@ -8,13 +9,13 @@
 <script>
 // import PriceService from '../priceService';
 import axios from 'axios';
-const uuidv4 = require('uuid/v4');
 
 export default {
     name: "AddProduct",
     data() {
         return {
             asin: '',
+            maxPrice: '',
             product: {}
         }
     }, 
@@ -26,10 +27,11 @@ export default {
             await axios.get('http://localhost:5000/api/product/' + this.asin).then((response) => {
               var productDetails = response.data;
               const productToAdd = {
-                id: uuidv4(),
+                id: this.asin,
                 title: productDetails.title,
                 price: productDetails.offerPrice,
-                date: date.toISOString().substring(0, 10) + ' ' + date.getHours() + ':' + date.getMinutes()
+                maxPrice: this.maxPrice,
+                date: date.toISOString().substring(0, 10) + ' ' + (date.getHours()<10 ? '0':'') + date.getHours() + ':' + (date.getMinutes()<10 ? '0':'') + date.getMinutes()
               }
               this.$emit('add-product', productToAdd);
             });
@@ -48,5 +50,8 @@ export default {
   }
   input[type="submit"] {
     flex: 2;
+  }
+  .addForm {
+    margin-top: 1em;
   }
 </style>

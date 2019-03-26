@@ -10,8 +10,9 @@
             </tr>
             <tr v-bind:key="product.id" v-for="product in products">
                 <!-- Behöver ingen product component, shows the values here -->
-                <td>{{product.title}}</td>
-                <td>{{product.price}}</td>
+                <td v-if="product.title.length >= 60">{{product.title.substring(0,60)}}</td>
+                <td v-else>{{product.title}}</td>
+                <td v-bind:class="[formatPrice(product.price) > product.maxPrice ? 'over' : 'under']">{{product.price}}</td>
                 <td>{{product.date}}</td>
                 <td>
                     <i class="fa fa-minus-circle" v-on:click="removeProduct(product.id)"></i>
@@ -19,18 +20,21 @@
                 <!-- <Product v-bind:product="product" v-on:del-product="removeProduct"/> -->
             </tr>
         </table>
+        <UpdatePrice v-bind:products="products" v-on:update-product="updateProduct"/>
     </div>
 </template>
 
 <script>
 
 import AddProduct from './AddProduct.vue';
+import UpdatePrice from './UpdatePrice.vue';
 /* import Product from './Product.vue'; */
 // ok the default is done, now its time to start working with json 
 export default {
     name: "ProductList",
     components: {
-        AddProduct
+        AddProduct,
+        UpdatePrice
     }, 
     data() {
         return {
@@ -46,6 +50,16 @@ export default {
         addProduct(newProduct) {
             this.products = [...this.products, newProduct];
             localStorage.setItem("savedProducts", JSON.stringify(this.products));
+        },
+        updateProduct(updatedProduct) {
+            var productIndex = this.products.findIndex(x => x.id == updatedProduct.id);
+            // this.products[productIndex] = updatedProduct;
+            this.$set(this.products[productIndex], 'price', updatedProduct.price);
+            this.$set(this.products[productIndex], 'date', updatedProduct.date);
+            localStorage.setItem("savedProducts", JSON.stringify(this.products));
+        }, 
+        formatPrice(price) {
+            return Number(price.replace(/[^0-9.]+/g, ""));
         }
     }, 
     created() {
@@ -61,4 +75,31 @@ export default {
 
 <style scoped>
     @import "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"; 
+    .over {
+        color: red;
+        font-weight: 600;
+    }
+    .under {
+        color: green;
+        font-weight: 600;
+    }
+    table {
+        border: 1px solid black;
+        margin: 0 auto;
+        border-collapse: collapse;
+        margin-top: 1em;
+        width: 100%;
+    }
+    th {
+        background: blacK;
+        color: white;
+    }
+    td {
+        padding: 0.25em 0.5em;
+        border-right: 1px solid grey;
+        border-bottom: 1px solid lightgray;
+    }
+    .fa-minus-circle {
+        color: lightcoral;
+    }
 </style>
