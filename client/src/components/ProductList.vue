@@ -9,7 +9,6 @@
                 <th>Remove</th>
             </tr>
             <tr v-bind:key="product.id" v-for="product in products">
-                <!-- Behöver ingen product component, shows the values here -->
                 <td v-if="product.title.length >= 60">{{product.title.substring(0,60)}}</td>
                 <td v-else>{{product.title}}</td>
                 <td v-bind:class="[formatPrice(product.price) > product.maxPrice ? 'over' : 'under']">{{product.price}}</td>
@@ -17,7 +16,6 @@
                 <td>
                     <i class="fa fa-minus-circle" v-on:click="removeProduct(product.id)"></i>
                 </td>
-                <!-- <Product v-bind:product="product" v-on:del-product="removeProduct"/> -->
             </tr>
         </table>
         <UpdatePrice v-bind:products="products" v-on:update-product="updateProduct"/>
@@ -28,8 +26,7 @@
 
 import AddProduct from './AddProduct.vue';
 import UpdatePrice from './UpdatePrice.vue';
-/* import Product from './Product.vue'; */
-// ok the default is done, now its time to start working with json 
+
 export default {
     name: "ProductList",
     components: {
@@ -53,7 +50,6 @@ export default {
         },
         updateProduct(updatedProduct) {
             var productIndex = this.products.findIndex(x => x.id == updatedProduct.id);
-            // this.products[productIndex] = updatedProduct;
             this.$set(this.products[productIndex], 'price', updatedProduct.price);
             this.$set(this.products[productIndex], 'date', updatedProduct.date);
             localStorage.setItem("savedProducts", JSON.stringify(this.products));

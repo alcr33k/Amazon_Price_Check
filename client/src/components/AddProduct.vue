@@ -22,9 +22,7 @@ export default {
     methods: {
         async addProduct() {
           var date = new Date();
-            // let scrapedProduct = await PriceService.getProduct(this.asin);
-            // for now include localhost:5000, we'll remove it when we push to heroku
-            await axios.get('http://localhost:5000/api/product/' + this.asin).then((response) => {
+            await axios.get('api/product/' + this.asin).then((response) => {
               var productDetails = response.data;
               const productToAdd = {
                 id: this.asin,

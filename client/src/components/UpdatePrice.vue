@@ -35,7 +35,7 @@ export default {
             var date = new Date();
             for (let i=0; i<this.products.length; i++) {
                 let product = this.products[i];
-                await axios.get('http://localhost:5000/api/product/' + product.id).then((response) => {
+                await axios.get('api/product/' + product.id).then((response) => {
                     var productDetails = response.data;
                     const productToAdd = {
                         id: product.id,
