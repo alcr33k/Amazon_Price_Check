@@ -19,6 +19,6 @@ if(process.env.NODE_ENV === 'production') {
     app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
 }
 
-const port = process.env.port || 5000; // either run it on process.env.port with heroku or on port 5000 on local machine
+const port = process.env.PORT || 5000; // either run it on process.env.port with heroku or on port 5000 on local machine
 
 app.listen(port, () => console.log('Server started on port ' + port));
