@@ -42,6 +42,8 @@ export default {
                         title: productDetails.title,
                         price: productDetails.offerPrice,
                         maxPrice: this.maxPrice,
+                        sellerName: productDetails.sellerName,
+                        fulfilledByAmazon: (productDetails.fulfilledByAmazon == 'true') ? 'True' : 'False',
                         date: date.toISOString().substring(0, 10) + ' ' + (date.getHours()<10 ? '0':'') + date.getHours() + ':' + (date.getMinutes()<10 ? '0':'') + date.getMinutes()
                     }
                     this.$emit('update-product', productToAdd);

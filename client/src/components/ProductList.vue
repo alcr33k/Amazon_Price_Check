@@ -6,6 +6,8 @@
             <tr>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Seller</th>
+                <th>FBA</th>
                 <th>Last Updated</th>
                 <th>Remove</th>
             </tr>
@@ -13,6 +15,8 @@
                 <td v-if="product.title.length >= 60"><a v-bind:href="'https://www.amazon.com/dp/' + product.id">{{product.title.substring(0,60)}}</a></td>
                 <td v-else><a v-bind:href="'https://www.amazon.com/dp/' + product.id">{{product.title}}</a></td>
                 <td v-bind:class="[formatPrice(product.price) > product.maxPrice ? 'over' : 'under']">{{product.price}}</td>
+                <td>{{product.sellerName}}</td>
+                <td>{{product.fulfilledByAmazon}}</td>
                 <td>{{product.date}}</td>
                 <td>
                     <i class="fa fa-minus-circle" v-on:click="removeProduct(product.id)"></i>
