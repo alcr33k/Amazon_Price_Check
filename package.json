@@ -10,10 +10,10 @@
   "author": "Alexander Björkenhall",
   "license": "MIT",
   "dependencies": {
-    "amazon-asin-scraper": "^1.0.6",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "osmosis": "^1.1.10"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"

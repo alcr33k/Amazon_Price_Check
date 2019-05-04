@@ -1,5 +1,5 @@
 const express = require('express');
-const asinScraper = require('amazon-asin-scraper');
+const asinScraper = require('./scraper');
 
 const router = express.Router();
 
@@ -7,8 +7,11 @@ router.get('/:asin', function(req, res) {
   if (req.params.asin.length == 10) {
     const promise = loadProduct(req.params.asin);
     promise.then(function(productDetails) {
-      var jsonFormatted = JSON.stringify(productDetails);
+      /* var jsonFormatted = JSON.stringify(productDetails); */
       res.send(productDetails);
+    })
+    .catch(() => {
+      res.status(404).send();
     });
   } else {
     res.status(400).send();
@@ -24,7 +27,11 @@ async function loadProduct(asin, proxy='', userAgent = '') {
           userAgent : userAgent //optional
       };
       asinScraper(options, (result)=>{
-        resolve(result.sellerList[0]);
+        if (Object.keys(result).length === 0) {
+          reject("Object retured was empty!");
+        } else {
+          resolve(result.sellerList[0]);
+        }
       });
     } catch(err) {
       reject(err);
