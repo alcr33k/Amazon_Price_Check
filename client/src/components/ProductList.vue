@@ -14,7 +14,7 @@
             <tr v-bind:key="product.id" v-for="product in products">
                 <td v-if="product.title.length >= 60"><a v-bind:href="'https://www.amazon.com/dp/' + product.id">{{product.title.substring(0,60)}}</a></td>
                 <td v-else><a v-bind:href="'https://www.amazon.com/dp/' + product.id">{{product.title}}</a></td>
-                <td v-bind:class="[formatPrice(product.price) > product.maxPrice ? 'over' : 'under']">{{product.price}}</td>
+                <td v-bind:class="[(formatPrice(product.price) > product.maxPrice) || (product.price === 'N/A') ? 'over' : 'under']">{{product.price}}</td>
                 <td>{{product.sellerName}}</td>
                 <td>{{product.fulfilledByAmazon}}</td>
                 <td>{{product.date}}</td>
@@ -23,7 +23,7 @@
                 </td>
             </tr>
         </table>
-        <UpdatePrice v-bind:products="products" v-on:update-product="updateProduct"/>
+        <UpdatePrice v-bind:products="products" v-on:update-product="updateProduct" v-on:update-to-na="updateToNa" />
     </div>
 </template>
 
@@ -60,6 +60,12 @@ export default {
             this.$set(this.products[productIndex], 'date', updatedProduct.date);
             localStorage.setItem("savedProducts", JSON.stringify(this.products));
         }, 
+        updateToNa(product) {
+            var productIndex = this.products.findIndex(x => x.id == product.id);
+            this.$set(this.products[productIndex], 'price', 'N/A');
+            this.$set(this.products[productIndex], 'date', product.date);
+            localStorage.setItem("savedProducts", JSON.stringify(this.products));
+        },
         formatPrice(price) {
             return Number(price.replace(/[^0-9.]+/g, ""));
         }, 

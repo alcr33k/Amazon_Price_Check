@@ -10,8 +10,8 @@ router.get('/:asin', function(req, res) {
       /* var jsonFormatted = JSON.stringify(productDetails); */
       res.send(productDetails);
     })
-    .catch(() => {
-      res.status(404).send();
+    .catch((error) => {
+      res.status(404).send(error);
     });
   } else {
     res.status(400).send();
